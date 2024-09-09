@@ -1,0 +1,38 @@
+name: publish
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pandoc
+        run: sudo apt-get install pandoc
+
+      - name: Make script executable
+        run: chmod +x ./script/*
+  
+      - name: Make pages
+        run: ./script/makepage.sh $GITHUB_REPOSITORY ${{ secrets.GITHUB_TOKEN }} ./dist
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4        
+
+
