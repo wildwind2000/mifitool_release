@@ -16,7 +16,7 @@ echo '# MifiTool 版本历史：
 # 遍历每个 release
 echo "$releases" | while read -r release; do
   tag_name=$(echo "$release" | jq -r '.tag_name')
-  created_at=$(echo "$release" | jq -r '.created_at')
+  created_at=$(echo "$release" | jq -r '.published_at')
   timestamp=$(date -d "$created_at" +%s)
   created_at=$(TZ=Asia/Shanghai date -d@$timestamp "+%Y-%m-%d %H:%M:%S")
   name=$(echo "$release" | jq -r '.name')
