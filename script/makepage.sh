@@ -18,7 +18,7 @@ if [ -z $id ]; then
     exit
 fi
 
-createdAt=$(jq -r '.created_at' <<< "$json_data")
+createdAt=$(jq -r '.published_at' <<< "$json_data")
 tagName=$(jq -r '.tag_name' <<< "$json_data")
 assets=$(jq '.assets' <<< "$json_data")
 createdAt=$(TZ=Asia/Shanghai date -d @$(date -d "$createdAt" +%s) +"%Y-%m-%d %H:%M:%S")
